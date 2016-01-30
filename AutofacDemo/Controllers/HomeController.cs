@@ -9,17 +9,17 @@ namespace AutofacDemo.Controllers
     public class HomeController : Controller
     {
         ISalesService _service;
-        IAppEvents _myService;
+        IAppEvents _events;
 
-        public HomeController(ISalesService service, IAppEvents myService)
+        public HomeController(ISalesService service, IAppEvents events)
         {
             _service = service;
-            _myService = myService;
+            _events = events;
         }
 
         public ActionResult Index()
         {
-            _myService.Raise<string>();
+            _events.Raise<string>();
             return View();
         }
     }

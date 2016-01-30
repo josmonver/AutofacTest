@@ -64,14 +64,13 @@ namespace AutofacDemo
             {
                 var handlers = scope.Resolve<IEnumerable<IHandle<T>>>();
 
-                //var handlers = _container.Resolve<IEnumerable<IHandle<T>>>();
                 foreach (var handler in handlers)
                     handler.Handle();
             }
 
-            ////var handlers = _container.Resolve<IEnumerable<IHandle<T>>>();
-            ////foreach (var handler in handlers)
-            ////    handler.Handle();
+            //var handlers = _container.Resolve<IEnumerable<IHandle<T>>>();
+            //foreach (var handler in handlers)
+            //    handler.Handle();
         }
     }
 }

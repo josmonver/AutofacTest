@@ -50,27 +50,42 @@ namespace AutofacDemo
     public class AppEvents : IAppEvents
     {
         private readonly IContainer _container;
+        private readonly ILifetimeScope _scope;
 
-        public AppEvents(IContainer container)
+        //public AppEvents(IContainer container)
+        //{
+        //    if (container == null)
+        //        throw new ArgumentNullException("container");
+        //    _container = container;
+        //}
+
+        public AppEvents(ILifetimeScope scope)
         {
-            if (container == null)
-                throw new ArgumentNullException("container");
-            _container = container;
+            if (scope == null)
+                throw new ArgumentNullException("scope");
+            _scope = scope;
         }
 
         public void Raise<T>()
         {
-            using (var scope = _container.BeginLifetimeScope("AutofacWebRequest"))
-            {
-                var handlers = scope.Resolve<IEnumerable<IHandle<T>>>();
-
-                foreach (var handler in handlers)
-                    handler.Handle();
-            }
-
+            // Scope error
             //var handlers = _container.Resolve<IEnumerable<IHandle<T>>>();
             //foreach (var handler in handlers)
             //    handler.Handle();
+
+            // Not reuse instances
+            //using (var scope = _container.BeginLifetimeScope("AutofacWebRequest"))
+            //{
+            //    var handlers = scope.Resolve<IEnumerable<IHandle<T>>>();
+
+            //    foreach (var handler in handlers)
+            //        handler.Handle();
+            //}
+            
+            // This works!
+            var handlers = _scope.Resolve<IEnumerable<IHandle<T>>>();
+            foreach (var handler in handlers)
+                handler.Handle();
         }
     }
 }

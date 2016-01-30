@@ -23,7 +23,7 @@ namespace AutofacDemo
                .AsClosedTypesOf(typeof(IHandle<>))
                .AsImplementedInterfaces()
                .InstancePerRequest();
-            builder.Register<IAppEvents>(_ => new AppEvents(container)).InstancePerRequest();
+            builder.Register<IAppEvents>(_ => new AppEvents(AutofacDependencyResolver.Current.RequestLifetimeScope)).InstancePerRequest();
             
             // Register MVC Controllers
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
